@@ -60,6 +60,13 @@ async function build() {
         await fs.copyFile(path.join(srcDir, 'index.html'), path.join(distDir, 'index.html'));
         console.log('  Index copied');
         
+        // Copy CNAME file if it exists (for custom domain)
+        const cnamePath = './CNAME';
+        if (await fs.access(cnamePath).then(() => true).catch(() => false)) {
+            await fs.copyFile(cnamePath, path.join(distDir, 'CNAME'));
+            console.log('  CNAME copied');
+        }
+        
         console.log('\nProcessing blog posts...');
         
         // Process blog posts - each gets its own folder with index.html
