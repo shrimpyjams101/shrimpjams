@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="/styles/styles.css?v=3">
         <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
         <script src="/components/header.js"></script>
+        <script src="/components/blog.js"></script>
         <meta charset="UTF-8">
         <title>Shrimp Jams</title>
     </head>
@@ -13,41 +14,9 @@
 
         <!-- Main content -->
         <main>
-            <div style="float:right; margin: 2rem">
-                <div>
-                    <audio id="shrimpAudio" controls>
-                        <source src="/assets/audio/time-to-win.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <div>
-                    <img id="shrimpImage" src="/assets/images/shrimp.jpg" alt="shrimpy">
-                </div>    
-            </div>
-            
-            <p>Shrimpy likes to jam to royalty free music. Watch for Shrimpy's cousin. He follows the mouse.</p>
-            <p>Shrimpy needs a friend. Will you be a shrimp supporter?</p>
-            <a href="https://patreon.com/shrimpjams?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink" target="_blank">Shrimpy's Patreon</a>
+            <h2>Blog Posts</h2>
+            <blog-list></blog-list>
         </main>
         
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const audio = document.getElementById('shrimpAudio');
-                const image = document.getElementById('shrimpImage');
-                
-                audio.addEventListener('play', () => {
-                    image.classList.add('spinning');
-                });
-                
-                audio.addEventListener('pause', () => {
-                    image.classList.remove('spinning');
-                });
-                
-                audio.addEventListener('ended', () => {
-                    image.classList.remove('spinning');
-                });
-            });
-        </script>
-        <script src="sketches/main.js"></script>
     </body>
 </html>

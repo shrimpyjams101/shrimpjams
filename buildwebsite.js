@@ -6,29 +6,29 @@ async function build() {
     const distDir = './dist';
     
     try {
-        console.log('🧹 Cleaning dist...');
+        console.log('Cleaning dist...');
         await fs.rm(distDir, { recursive: true, force: true });
         await fs.mkdir(distDir, { recursive: true });
         
-        console.log('📁 Copying files...');
+        console.log('Copying files...');
         
         // Copy assets
         await fs.cp(path.join(srcDir, 'assets'), path.join(distDir, 'assets'), { recursive: true });
-        console.log('  ✓ Assets copied');
+        console.log('  Assets copied');
         
         // Copy components
         await fs.cp(path.join(srcDir, 'components'), path.join(distDir, 'components'), { recursive: true });
-        console.log('  ✓ Components copied');
+        console.log('  Components copied');
         
         // Copy styles
         await fs.cp(path.join(srcDir, 'styles'), path.join(distDir, 'styles'), { recursive: true });
-        console.log('  ✓ Styles copied');
+        console.log('  Styles copied');
         
         // Copy sketches
         await fs.cp(path.join(srcDir, 'sketches'), path.join(distDir, 'sketches'), { recursive: true });
-        console.log('  ✓ Sketches copied');
+        console.log('  Sketches copied');
         
-        console.log('\n📝 Processing pages...');
+        console.log('\nProcessing pages...');
         
         // Process pages - each gets its own folder with index.html
         const pagesSrcDir = path.join(srcDir, 'pages');
@@ -52,15 +52,15 @@ async function build() {
                     path.join(pageDir, 'index.html')
                 );
                 
-                console.log(`  ✓ ${file} → pages/${pageName}/index.html`);
+                console.log(`  ${file} -> pages/${pageName}/index.html`);
             }
         }
         
         // Copy index.html to root
         await fs.copyFile(path.join(srcDir, 'index.html'), path.join(distDir, 'index.html'));
-        console.log('  ✓ Index copied');
+        console.log('  Index copied');
         
-        console.log('\n📝 Processing blog posts...');
+        console.log('\nProcessing blog posts...');
         
         // Process blog posts - each gets its own folder with index.html
         const blogSrcDir = path.join(srcDir, 'blog');
@@ -68,11 +68,41 @@ async function build() {
         await fs.mkdir(blogDistDir, { recursive: true });
         
         const blogFiles = await fs.readdir(blogSrcDir);
+        const posts = [];
         
         for (const file of blogFiles) {
-            if (file.endsWith('.html') && file !== 'index.html') {
+            if (file.endsWith('.html')) {
                 // Get filename without extension
                 const postName = path.basename(file, '.html');
+                
+                // Read file to extract metadata
+                const content = await fs.readFile(path.join(blogSrcDir, file), 'utf8');
+                
+                // Extract title from h2 or title tag
+                const titleMatch = content.match(/<h2>(.*?)<\/h2>/) || content.match(/<title>(.*?)<\/title>/);
+                const title = titleMatch ? titleMatch[1] : postName;
+                
+                // Extract first paragraph as excerpt
+                const excerptMatch = content.match(/<p>(.*?)<\/p>/);
+                const excerpt = excerptMatch ? excerptMatch[1].substring(0, 150) + '...' : '';
+                
+                // Extract date from meta tag, fallback to file modification time
+                const dateMatch = content.match(/<meta name="date" content="(.*?)">/);
+                if (!dateMatch) {
+                    throw new Error(`Missing date metadata in ${file}. Add <meta name="date" content="YYYY-MM-DD"> to the file.`);
+                }
+                const date = dateMatch[1];
+                
+                // Add to posts array
+                const postData = {
+                    title,
+                    slug: postName,
+                    url: `/blog/${postName}/`,
+                    excerpt,
+                    date
+                };
+                
+                posts.push(postData);
                 
                 // Create folder for this post
                 const postDir = path.join(blogDistDir, postName);
@@ -84,37 +114,24 @@ async function build() {
                     path.join(postDir, 'index.html')
                 );
                 
-                console.log(`  ✓ ${file} → blog/${postName}/index.html`);
-            } else if (file === 'index.html' || file === 'posts.json') {
-                // Copy blog listing and posts.json to root blog folder
-                await fs.copyFile(
-                    path.join(blogSrcDir, file),
-                    path.join(blogDistDir, file)
-                );
-                console.log(`  ✓ ${file} copied to blog/`);
+                console.log(`  ${file} -> blog/${postName}/index.html`);
             }
         }
         
-        console.log('\n✅ Build complete! Files are in ./dist');
-        console.log('\n📦 Structure:');
-        console.log('   dist/');
-        console.log('   ├── index.html (only HTML file in root)');
-        console.log('   ├── pages/');
-        console.log('   │   ├── blog/');
-        console.log('   │   │   └── index.html');
-        console.log('   │   └── about/');
-        console.log('   │       └── index.html');
-        console.log('   ├── blog/');
-        console.log('   │   ├── index.html (listing)');
-        console.log('   │   ├── post-name/');
-        console.log('   │   │   └── index.html');
-        console.log('   ├── assets/');
-        console.log('   ├── components/');
-        console.log('   ├── styles/');
-        console.log('   └── sketches/');
+        // Sort posts by date (newest first)
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Write posts.json
+        await fs.writeFile(
+            path.join(blogDistDir, 'posts.json'),
+            JSON.stringify(posts, null, 2)
+        );
+        console.log(`  Generated posts.json with ${posts.length} posts`);
+        
+        console.log('\nBuild complete! Files are in ./dist');
         
     } catch (err) {
-        console.error('❌ Build failed:', err);
+        console.error('Build failed:', err);
         process.exit(1);
     }
 }
