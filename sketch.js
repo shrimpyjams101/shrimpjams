@@ -16,7 +16,7 @@ function setup() {
 }
 
 function draw() {
-  background(255);
+  background(255, 1);
 
   image(shrimp, x, y, 100, 100)
 
@@ -26,6 +26,11 @@ function draw() {
   
   x = v1.x;
   y = v1.y;
+
+  circle((width / 6) + 100 * cos(2*frameCount), (height / 2) + 100 * cos(3*frameCount), 50)
+
+  circle(width - (width / 6) + 100 * cos(2*frameCount), (height / 2) + 100 * cos(3*frameCount), 50)
+
 
 }
 
