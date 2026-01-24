@@ -32,7 +32,7 @@ async function build() {
         
         // Process pages - each gets its own folder with index.html
         const pagesSrcDir = path.join(srcDir, 'pages');
-        const pagesDistDir = path.join(distDir, 'pages');
+        const pagesDistDir = distDir;
         await fs.mkdir(pagesDistDir, { recursive: true });
         
         const pageFiles = await fs.readdir(pagesSrcDir);
