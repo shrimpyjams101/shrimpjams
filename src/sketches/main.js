@@ -4,7 +4,7 @@ let size = 100;
 let shrimp;
 
 function preload() {
-    shrimp = loadImage("assets/shrimp-mouse.jpg")
+    shrimp = loadImage("../assets/images/shrimp-mouse.jpg")
 
 }
 
