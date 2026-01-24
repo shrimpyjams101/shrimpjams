@@ -10,13 +10,15 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-    imageMode(CENTER);
-
+  imageMode(CENTER);
   angleMode(DEGREES);
+
+  x = width / 2;
+  y = height / 2;
 }
 
 function draw() {
-  background(255, 1);
+  background(255);
 
   image(shrimp, x, y, 100, 100)
 
@@ -26,12 +28,6 @@ function draw() {
   
   x = v1.x;
   y = v1.y;
-
-  circle((width / 6) + 100 * cos(2*frameCount), (height / 2) + 100 * cos(3*frameCount), 50)
-
-  circle(width - (width / 6) + 100 * cos(2*frameCount), (height / 2) + 100 * cos(3*frameCount), 50)
-
-
 }
 
 function windowResized() {

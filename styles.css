@@ -1,31 +1,33 @@
 html {
-    box-sizing: border-box;
-    max-width: 70ch;
-    margin: auto;
-    font-size: 1.25em;
-    color: #333;
-    line-height: 1.4;
+    background-color: #fafafa;
 }
 
 * {
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: sans-serif;
+header {
+    background-color: #374151;
+    text-align: center;
+    padding: 1rem;
+    color: #FFFFFF;
 }
 
-img {
+body {
     max-width: 100%;
-    height: auto;
+    margin: 0;
+    padding: 0;
 }
 
-a:link {
-    text-decoration: none;
+h1 {
+    margin: 0;
+    padding: 0;
 }
 
-a:hover {
-    text-decoration: underline;
+main {
+    max-width: 60%;
+    margin: auto;
+    padding: 1rem;
 }
 
 canvas {
@@ -33,6 +35,17 @@ canvas {
     top: 0;
     left: 0;
     z-index: -1;
-    width: 100%;
-    height: 100%;
+}
+
+.spinning {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
