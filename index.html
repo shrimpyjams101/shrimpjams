@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/styles/styles.css?v=3">
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+        <script src="/components/header.js"></script>
+        <script src="/components/footer.js"></script>
+        <title>Shrimp Jams</title>
+    </head>
+    <body>
+        <!-- Header -->
+        <header-component></header-component>
+
+        <!-- Main content -->
+        <main>
+            <div>
+                <div>
+                    <audio style="float: right; margin: 1rem" id="shrimpAudio" controls>
+                        <source src="assets/audio/time-to-win.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <div>
+                    <img style="float: right; width: min(400px, 50vw); height: auto; margin: 1rem" id="shrimpImage" src="assets/images/shrimp.jpg" alt="shrimpy">
+                </div>    
+            </div>
+            
+            <p>Shrimpy likes to jam to royalty free music. Watch for Shrimpy's cousin. He follows the mouse.</p>
+            <p>Shrimpy needs a friend. Follow shrimpy!</p>
+            <p>@shrimpjams</p>
+            <p><a href="https://linktr.ee/shrimpjams">linktr.ee/shrimpjams</a></p>
+   
+        </main>
+        <footer-component></footer-component>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const audio = document.getElementById('shrimpAudio');
+                const image = document.getElementById('shrimpImage');
+                
+                audio.addEventListener('play', () => {
+                    image.classList.add('spinning');
+                });
+                
+                audio.addEventListener('pause', () => {
+                    image.classList.remove('spinning');
+                });
+                
+                audio.addEventListener('ended', () => {
+                    image.classList.remove('spinning');
+                });
+            });
+        </script>
+        <script src="sketches/main.js"></script>
+    </body>
+</html>
