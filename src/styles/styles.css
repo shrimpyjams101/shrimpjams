@@ -56,6 +56,7 @@ header, nav {
     background-color: #374151;
     text-align: center;
     color: #FFFFFF;
+    margin: auto;
 }
 
 footer-component {
@@ -67,7 +68,8 @@ footer-component {
 
 nav {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .white-link {

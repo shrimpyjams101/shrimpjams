@@ -13,6 +13,7 @@ class HeaderComponent extends HTMLElement {
             <nav>
                 <a class="white-link" href="/">Home</a>
                 <a class="white-link" href="/blog">Blog</a>
+                <a class="white-link" href="/funfacts">Fun Facts</a>
                 <a class="white-link" href="https://patreon.com/shrimpjams?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink">Patreon</a>
             </nav>
         `;
